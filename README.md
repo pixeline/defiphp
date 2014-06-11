@@ -9,5 +9,11 @@ La page login.php permet de se logger en tant qu'administrateur à la page admin
 les résultats du sondage et d'envoyer un mail aux "subscribers"
 
 Pour faire que ça fonctionne:
--Importer la base de données
--Changer les logs dans le fichiers inc.config.php
+-Importer la base de données grâce au fichier gordonlablog.sql.
+
+-Ouvrir le dossier 'site'.
+
+-Ouvrir le fichier inc.config.php et changer les logs pour accéder à la bdd.
+
+Le pseudo et mot de passe pour accéder à la page admin.php par l'interface 
+de connexion login.php sont "tfedwm14" et "tfedwm14".
