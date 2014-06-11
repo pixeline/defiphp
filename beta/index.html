@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<title>VideoLayer - The advanced video tag</title>
+		
+		<meta charset="utf-8">
+		<meta name="author" content="Gordon Lambot">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="shortcut icon" href="img/favicon.ico">
+
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link rel="stylesheet" type="text/css" href="css/videolayer.css">
+		<style></style>
+
+		<script src="js/colorpicker.js"></script>
+		<script src="js/videolayer.js"></script>
+	</head>
+	<body>
+		<aside id="sidebar">
+			<header>
+				<a href="index.html"><h1>Video<span>Layer
+				<p>The advanced video tag</p></a>
+			</header>
+			<form id="sideform">
+				<ul id="mainul">
+					<li id="type">
+						<div class="left">
+							<input type="radio" name="type" id="radiovideo" checked="checked">
+							<label for="radiovideo">Video</label>
+						</div>
+						<div class="right">
+							<input type="radio" name="type" id="radioplaylist">
+							<label for="radioplaylist" class="right">Playlist</label>
+						</div>
+					</li>
+					<li>
+						<input type="text" id="playlisttitle" placeholder="Playlist title">
+					</li>
+					<li>
+						<input type="number" id="numvids" min="1" max="999" value="1" class="right">
+						<label for="numvids">Number of videos</label>
+					</li>
+					<li id="optionstable">
+						<table>
+							<tr>
+								<th><h3>Title</h3><div>The title of the video</div></th>
+								<th><button type="button" id="captionsbutton"></button><div>The number of caption tracks<br>Click to add one track to each video</div></th>
+								<th><button type="button" id="repeatbutton"></button><div>Allow the user to repeat the video<br>Click to check all the boxes</div></th>
+								<th><button type="button" id="qualitybutton"></button><div>Allow user to switch for a higher definition<br>Click to check all boxes</div></th>
+								<th><h3>Def</h3><div>The video that will be showed on page load</div></th>
+							</tr>
+							<tr>
+								<td><input type="text" placeholder="Video 1"></td>
+								<td><input type="number" min="0" max="99" value="0"></td>
+								<td><input type="checkbox" id="repcheck1"><label for="repcheck1"></label></td>
+								<td><input type="checkbox" id="quacheck1"><label for="quacheck1"></label></td>
+								<td><input type="radio" name="default" id="defcheck1" checked><label for="defcheck1"></label></td>
+							</tr>
+						</table>
+					</li>
+					<li id="colors">
+						<ul>
+							<li>
+								<canvas class="sample" id="controlsbar"></canvas>
+								<label class="samplelabel" for="controlsbar">Background color</label>
+							</li>
+							<li>
+								<canvas class="sample" id="loadingbar"></canvas>
+								<label class="samplelabel" for="loadingbar">Time bar color</label>
+							</li>
+							<li>
+								<canvas class="sample" id="controls"></canvas>
+								<label class="samplelabel" for="controls">Buttons color</label>
+							</li>
+						</ul>
+						<div id="colorpicker">
+							<div id="mainwrapper" class="wrapper">
+								<canvas id="rgbcanvas" unselectable="on"></canvas>
+								<div id="picker" unselectable="on"></div>
+							</div>
+							<div id="colorwrapper" class="wrapper">
+								<canvas id="colorcanvas" unselectable="on" class="barcanvas"></canvas>
+								<div class="barpicker" unselectable="on"></div>
+							</div>
+							<div id="opacitywrapper" class="wrapper">
+								<canvas id="opacitycanvas" unselectable="on" class="barcanvas"></canvas>
+								<div class="barpicker" unselectable="on"></div>
+							</div>
+							<div id="fields" class="wrapper">
+								<ul>
+									<li><label for="hexcode">#</label><input type="text" id="hexcode" maxlength="6"></li>
+									<li><label for="opacity">Opacity</label><input type="number" id="opacity" maxlength="3" min="0" max="100"></li>
+								</ul>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</form>
+		</aside>
+		<div id="content">
+			<section id="presentation">
+				<video title="Timelapses &amp; classical" class="videolayer vl_playlist">
+					<source type="video/mp4" src="videos/video1.mp4" data-num="0" data-tmbn="img/thumbnail1.jpg" data-repeatable="repeatable" title='1st video'>
+					<source type="video/webm" src="videos/video1.webm"  data-num="0">
+					<source type="video/mp4" src="videos/video1_hd.mp4" data-num="0" data-hd="hd">
+					<source type="video/webm" src="videos/video1_hd.webm" data-num="0" data-hd="hd">
+					<track kind="subtitles" label="English" src="videos/captions/subtitles1_en.vtt" srclang="en" data-num="0">
+					<track kind="subtitles" label="Français" src="videos/captions/subtitles1_fr.vtt" srclang="fr" data-num="0">
+
+					<source type="video/mp4" src="videos/video2.mp4" data-num="1" data-tmbn="img/thumbnail2.jpg" data-repeatable="repeatable" title="2nd video">
+					<source type="video/webm" src="videos/video2.webm" data-num="1">
+					<source type="video/mp4" src="videos/video2_hd.mp4" data-num="1" data-hd="hd">
+					<source type="video/webm" src="videos/video2_hd.webm" data-num="1" data-hd="hd">
+					<track kind="subtitles" label="English" src="videos/captions/subtitles2_en.vtt" srclang="en" data-num="1">
+					<track kind="subtitles" label="Français" src="videos/captions/subtitles2_fr.vtt" srclang="fr" data-num="1">
+
+					<source type="video/mp4" src="videos/video3.mp4" data-num="2" data-tmbn="img/thumbnail3.jpg" data-repeatable="repeatable" title='3rd video'>
+					<source type="video/webm" src="videos/video3.webm"  data-num="2">
+					<source type="video/mp4" src="videos/video3_hd.mp4" data-num="2" data-hd="hd">
+					<source type="video/webm" src="videos/video3_hd.webm" data-num="2" data-hd="hd">
+					<track kind="subtitles" label="English" src="videos/captions/subtitles3_en.vtt" srclang="en" data-num="2">
+					<track kind="subtitles" label="Français" src="videos/captions/subtitles3_fr.vtt" srclang="fr" data-num="2">
+				</video>
+			</section>
+			<section id="codesec">
+				<h2>In the &lt;head&gt;</h2>
+				<a href="videolayer.zip" title="Download the zip">Download</a>
+				<div class="codeblock">
+					<code>
+	    				&lt;script src=&#39;http://www.gordonlambot.be/tfe/site/js/videolayer.js&#39;&gt;&lt;/script&gt;<br>
+						&lt;link href=&#39;http://www.gordonlambot.be/tfe/site/js/videolayer.css&#39; rel=&#39;stylesheet&#39;&gt;
+					</code>
+				</div>
+				<h2>In the &lt;body&gt;</h2>
+				<div class="codeblock">
+					<code>
+	    				&lt;video class=&#39;videolayer&#39;&gt;<br>
+							<span class="innercode">&lt;source type=&#39;video/mp4&#39; src=&#39;<strong>video1</strong>.mp4&#39; title=&#39;<strong>1st video</strong>&#39;&gt;</span><br>
+							<span class="innercode">&lt;source type=&#39;video/webm&#39; src=&#39;<strong>video1</strong>.webm&#39;&gt;</span><br>
+						&lt;/video&gt;
+					</code>
+				</div>
+			</section>
+		</div>
+	</body>
+</html>

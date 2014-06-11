@@ -1,0 +1,704 @@
+/* VideoLayer 1.0 by Gordon Lambot */
+
+/* 	If you used values in percentage to place your video or need
+	some "media-queries" specific to the width of the player, 
+   	have a look at the bottom of this file */
+
+@font-face {
+    font-family: 'videolayer';
+    src: url('../fonts/videolayer.eot');
+    src: url('../fonts/videolayer.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/videolayer.woff') format('woff'),
+         url('../fonts/videolayer.ttf') format('truetype'),
+         url('../fonts/videolayer.svg#videolayer') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes buffering
+{
+	0%   	{-webkit-transform: rotate(0deg);}
+	100% 	{-webkit-transform: rotate(360deg);}
+}
+
+/* IE */
+@-ms-keyframes buffering
+{
+	0%   	{-ms-transform: rotate(0deg);}
+	100% 	{-ms-transform: rotate(360deg);}
+}
+
+/* Standard syntax */
+@keyframes buffering
+{
+	0%   	{transform: rotate(0deg);}
+	100% 	{transform: rotate(360deg);}
+}
+
+/* Captions style, have a look at 
+http://html5videoguide.net/presentations/WebVTT/#webvtt-rich-styling-example
+for more information */
+
+::cue {
+	background: #000;
+	font-family: Arial, sans-serif;
+}
+
+.vl_video {
+	background-color: #000;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+.vl_ui, .vl_ui div, .vl_ui h1, .vl_ui h2, .vl_ui h3, .vl_ui ul, .vl_ui li, 
+.vl_ui figure, .vl_ui p, .vl_ui button {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+	-moz-user-select: -moz-none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	outline: none;
+	background: none;
+	left: auto;
+	right: auto;
+	top: auto;
+	bottom: auto;
+	border-radius: 0;
+	text-shadow: none;
+	width: auto;
+	height: auto;
+	-webkit-animation: none;
+	animation: none;
+	clear: none;
+}
+
+.vl_ui ul {
+	list-style: none;
+}
+
+.vl_ui {
+	width: 480px;
+	height: 320px;
+	font-family: Arial, sans-serif;
+	position: relative;
+	font-size: 14px;
+	line-height: 20px;
+	overflow: hidden;
+}
+
+div.vl_ui.vl_cover {
+	width: 100% !important;
+	height: 100% !important;
+}
+
+/* Mains colors */
+
+.vl_ui .vl_background, .vl_thumbnail:after, 
+.vl_background .vl_timetooltip, button:after {
+	background: rgba(31, 31, 31, .8);
+}
+
+.vl_ui, button, button:after, .vl_current div {
+	color: #ebebeb;
+}
+
+.vl_ui .vl_maincolor, figure.vl_current, figure:hover {
+	background: #ebebeb;
+}
+
+.vl_ui .vl_active, .vl_ui button:hover, .vl_active:hover button:after {
+	color: #5ab81c;
+}
+
+.vl_ui .vl_current {
+	background: #5ab81c;
+}
+
+/* End main colors */
+/* Presentation screen */
+
+div.vl_presentation_screen, div.vl_loading_screen {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+	display: none;
+}
+
+div.vl_presentation_screen {
+	cursor: pointer;
+	z-index: 999999;
+	top: 30px;
+}
+
+button.vl_big_play, div.vl_buffer {
+	width: 75px;
+	height: 75px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -37px 0px 0px -37px;
+	border-radius: 38px;
+	z-index: 999999;
+	cursor: pointer;
+}
+
+button.vl_big_play:after {
+	font-family: 'videolayer', Arial, sans-serif;
+	font-size: 40px;
+	content: '\2023';
+	display: block;
+	margin: 2px 0px 0px 5px;
+	background: none;
+}
+
+/* End presentation screen */
+/* Loading screen */
+
+div.vl_buffer {
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABChJREFUeNrsm++LDVEYx8/cO5dlsdhWttjIhojttkpakfXGK8p74j/wmhfKXyBRyguFvEIp/gCl5IWsHyWbXT9XarXWWsS6M75n7zl5HOecO7OhvfOcp749M3f3Tnc+833OnDlzTiRmcYyOjkZIJSK5n0IJ9KOjoyP9n78nFs0RGlqZCjCnoUFfAG4qwPJHBWqB2gBOuuwzNA5wyb+6Ys1QhmV1YcsZNQG9B7Tv3GCZILJA04A/Qm8ArfY3fk+piUouMi5u5JG+IbRDPYC+nBOsLJDoHZN+Jtu11QBWhVq4OcsFyoRG4cm8ANoCYJ1FhRUZ5RdlAOdynHbZRgBbz9VZPleZ7tJaBWCboUohYOFE8pSfC0rJA7EL6ssDrJmc5YKXBZhLS6AdWYGVZrmrhHoWdMGJcrqpbNleClWbvlNqAJQnNkc93rSq7ZiobMlmJ7VsgaY1iM7rvULAssBbiLQYWpQBViNQWncA7FnhYBFo0mWdClyc4XHIVpb6sUqOXFwHsMlCwiLQZGO9FprrcVcpg7vGAOtaUe6G1sAJfkCSbc5Yg5IzoZkgl8k+WKGdZbhsDdK6GbRZWnJo5wIuwLdCOstw2RDSoxzjX6a75kM7C1uGFmCvke7PAJiGtgkObWMBSwF7ifQk58AhBdbHBpYCJsvxbcYuhflZDx0DKzwsFbehmtHjN/tkLphbWcFSLy5uOWDEDRxW5eYsCew50juHq3zw2vXoKhtYKu5mfPA21csOlupOjDjaLZ/bujk6S8bjHJC0VqIU57GDBXc9EPX5ETZgrvZMcurm6CwZTwmUSsZO6gqusF4oSDZnue6KXTFTWEPi1wwi37tJmltZOgvt1hgpQV9XgrprA1dnyRhWY17mPArb9vQ+Z1jaOX9Ace1zhqXL0BeR+QXuzspFN8D6PdIAqzGstBE07m2WDZYTGmdYVQIj9QDjDUtNyI0dsFzAHsaMXVUhcHzA9PZXrrB6lbNSh2zQhrnC6jdg6eUriQGKNyy0V3tFfXokBVVS2yWP0wY4Oms/cRUFlXjKUc4KnIyZuUq+MN1GwCQWaDZwAxy7DkfUOScEEM0pKUe6f5MVLLhqD9J2UX+NXyLA9OrYyHCW3h9BCQ6ygaWmDp1Sz4MRgRERcJHDWTe49eDPiPp898ShyABE4V1iAwuuOoq0T5VfTbiXtqSWfBUl+IkFLIA6iHRcQRIKQq0BLOqq05yGaHapdkoQWMIBKzG2r8BVI/RgRZ8meRjposg3NVJmuYr/hHk8DtMkfcBc8+FP4nsT5rEiwSTQfp1HOqBKrOa4K06PWwFUv+0YnGb+aYfZVohpyTvfIdcxuE1mo8Bsqy2O4X9eBVhuYFpn8bfLIoS9DYNq0BR0Lst3Iu7AkOQKsN1w1XiwUIgQIUKECBEiRIgQIZjGTwEGAPyfWPvNiCKnAAAAAElFTkSuQmCC");
+	background-color: transparent;
+	background-repeat: no-repeat;
+	-webkit-animation: buffering 2s linear 0s infinite; /* Chrome, Safari, Opera */
+	-ms-animation: buffering 2s linear 0s infinite; /* IE */
+	animation: buffering 2s linear 0s infinite; /* Standard syntax */
+}
+
+/* End loading screen */
+/* Titles bar */
+
+div.vl_title, div.vl_controls, div.vl_playlist_thumbnails, 
+div.vl_playlist_buttons button, div.vl_captions_menu {
+	height: 26px;
+	width: 100%;
+	position: absolute;
+	padding-top: 1px;
+}
+
+div.vl_title {
+	top: 0px;
+	padding-top: 4px;
+}
+
+h1.vl_videotitle, h2.vl_playlisttitle {
+	padding: 0px 12px;
+	overflow: hidden;
+	position: absolute;
+	height: 24px;
+}
+
+h2.vl_playlisttitle {
+	right: 0;
+	display: none;
+}
+
+h2.vl_playlisttitle span:before {
+	content: ' - ';
+}
+
+/* End titles bar */
+/* Menus */
+
+div.vl_menus {
+	height: 259px;
+	width: 100%;
+	position: absolute;
+	top: 33px;
+}
+
+div.vl_title, div.vl_menus, div.vl_controls {
+	-webkit-transition: opacity .4s ease-out;
+	transition: opacity .4s ease-out;
+}
+
+button.vl_big_play:after, div.vl_played.vl_smooth, div.vl_controls button, 
+div.vl_volume_level, div.vl_playlist_menu figure, div.vl_playlist_menu button {
+	-webkit-transition: all .1s linear;
+	transition: all .1s linear;
+}
+
+	/* Playlist menu */
+
+div.vl_playlist_menu {
+	width: 320px;
+	height: 100%;
+	position: relative;
+	left: 50%;
+	margin-left: -160px;
+	display: none;
+}
+
+div.vl_playlist_thumbnails, div.vl_playlist_scroll {
+	width: 287px;
+	height: 247px;
+	padding-top: 0px;
+	overflow: hidden;
+	padding: 6px 0px;
+}
+
+div.vl_playlist_thumbnails ul {
+	width: 320px;
+	height: 100%;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+div.vl_playlist_thumbnails li {
+	width: 260px;
+	padding: 3px 6px 0px 6px;
+	overflow: hidden;
+	height: 51px;
+}
+
+div.vl_playlist_menu.vl_noscroll li {
+	width: 275px;
+}
+
+div.vl_playlist_thumbnails li:first-child {
+	padding: 0px 6px;
+}
+
+div.vl_playlist_thumbnails figure {
+	height: 45px;
+	padding: 3px;
+	overflow: hidden;
+	cursor: pointer;
+	position: relative;
+}
+
+.vl_current, div.vl_playlist_thumbnails figure:hover, div.vl_captions_list ul {
+	color: #1f1f1f;
+}
+
+div.vl_thumbnail {
+	height: 45px;
+	width: 80px;
+	float: left;
+	background: #000;
+}
+
+figure.vl_current div.vl_thumbnail:after {
+	content: "Playing";
+	display: inline;
+	position: static;
+	padding: 5px;
+	position: relative;
+	top: 13px;
+	left: 12px;
+}
+
+div.vl_playlist_thumbnails figcaption {
+	float: left;
+	width: 168px;
+	padding-left: 6px;
+	overflow: hidden;
+}
+
+div.vl_playlist_thumbnails h3 {
+	margin-top: 2px;
+}
+
+div.vl_playlist_buttons, div.vl_buttons {
+	font-family: 'videolayer', Arial, sans-serif;
+	font-size: 16px;
+}
+
+div.vl_playlist_buttons {
+	position: relative;
+	width: 30px;
+	left: 290px;
+}
+
+div.vl_playlist_buttons button, div.vl_buttons button {
+	width: auto;
+	height: auto;
+	padding: 4px;
+	cursor: pointer;
+	width: 30px;
+	height: 30px;
+}
+
+div.vl_playlist_buttons button.vl_playlist_repeat {
+	padding: 4px 6px;
+	top: 33px;
+}
+
+button.vl_playlist_shuffle:before {
+	content: '\2AD8';
+}
+
+button.vl_playlist_repeat:before {
+	content: '\221E';
+}
+
+div.vl_playlist_scroll, div.vl_playlist_scrollbar,
+div.vl_captions_scroll, div.vl_captions_scrollbar {
+	width: 21px;
+	position: absolute;
+	top: 6px;
+	right: 33px;
+	padding: 0px;
+}
+
+div.vl_playlist_menu.vl_noscroll div.vl_playlist_scroll, 
+div.vl_captions_menu.vl_noscroll div.vl_captions_scroll {
+	display: none;
+}
+
+div.vl_playlist_scrollbar, div.vl_captions_scrollbar {
+	top: 0px;
+	right: 6px;
+	width: 9px;
+	height: 20px;
+}
+
+	/* End playlist menu */
+	/* Captions menu */
+
+div.vl_captions_menu {
+	width: 150px;
+	height: 78px;
+	padding: 6px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -39px 0px 0px -81px;
+	display: none;
+}
+
+div.vl_captions_list {
+	width: 135px;
+	overflow: hidden;
+	padding: 6px 0px;
+}
+
+div.vl_captions_menu.vl_noscroll div.vl_captions_list {
+	width: 100%;
+}
+
+div.vl_captions_list ul {
+	width: 140px;
+	padding: 0px 20px 0px 6px;
+	height: 66px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+div.vl_captions_menu.vl_noscroll ul {
+	width: 155px;
+}
+
+div.vl_captions_list li {
+	padding-left: 6px;
+	margin-bottom: 3px;
+	cursor: pointer;
+}
+
+div.vl_captions_list li:last-child {
+	margin-bottom: 0px;
+}
+
+div.vl_captions_list li:hover {
+	background-color: #ccc;
+}
+
+div.vl_captions_scroll {
+	right: 0px;
+	height: 78px;
+}
+
+	/* End captions menu */
+	/* Volume menu */
+
+div.vl_volume_menu {
+	width: 30px;
+	padding: 20px 20px 0px 20px;
+	height: 111px;
+	position: absolute;
+	right: 18px;
+	bottom: -11px;
+	z-index: 9999999;
+	display: none;
+}
+
+div.vl_volume_controller {
+	width: 30px;
+	height: 100px;
+}
+
+div.vl_max_volume, div.vl_volume_level, div.vl_volume_bar {
+	height: 82px;
+	width: 12px;
+	position: relative;
+	left: 9px;
+	top: 9px;
+}
+
+div.vl_volume_level, div.vl_volume_bar {
+	position: absolute;
+	left: 0px;
+	bottom: 0px;
+	top: auto;
+	height: 100%;
+}
+
+div.vl_volume_bar {
+	cursor: pointer;
+}
+
+div.vl_volume_level {
+	height: 0px;
+}
+
+	/* End volume menu */
+/* End menus */
+/* Controls bar */
+
+div.vl_controls {
+	bottom: 0px;
+	height: 36px;
+	padding-top: 0px;
+}
+
+div.vl_loadingbar {
+	background-color: #525252;
+	position: relative;
+}
+
+div.vl_loaded, div.vl_played, div.vl_timebar {
+	height: 8px;
+	width: 0px;
+}
+
+div.vl_played, div.vl_timebar{
+	position: absolute;
+	top: 0px;
+}
+
+div.vl_timebar {
+	width: 100%;
+}
+
+div.vl_loadingbar div.vl_timetooltip, div.vl_loadingbar div.vl_played.vl_hold, 
+div.vl_buttons button:after, div.vl_volume_level.vl_hold {
+	-webkit-transition: none;
+	transition: none;
+}
+
+div.vl_loadingbar div.vl_timetooltip, div.vl_buttons button:after {
+	padding: 0px 5px 1px 5px;
+	font-size: 12px;
+	position: absolute;
+	top: -27px;
+	margin: 3px;
+	display: none;
+}
+
+div.vl_loadingbar:hover div.vl_timetooltip, div.vl_loadingbar div.vl_timetooltip.vl_show,
+div.vl_buttons button:hover:after {
+	display: block;
+}
+
+div.vl_buttons {
+	height: 30px;
+}
+
+button.vl_play, p.vl_time, ul.vl_rightbuttons li {
+	float: left;
+}
+
+div.vl_buttons button {
+	background-color: transparent;
+	padding: 3px 5px 5px 4px;
+	position: relative;
+	width: 31px;
+	height: 28px;
+}
+
+div.vl_buttons button.vl_play {
+	padding: 3px 20px 5px;
+	width: 60px;
+}
+
+div.vl_buttons button.vl_playlist {
+	display: none;
+}
+
+div.vl_buttons button.vl_captions {
+	display: none;
+}
+
+div.vl_buttons button.vl_repeat {
+	width: 27px;
+}
+
+div.vl_buttons button.vl_quality {
+	width: 37px;
+}
+
+div.vl_buttons button.vl_fullscreen {
+	width: 35px;
+}
+
+p.vl_time {
+	font-family: 'open sans', arial, sans-serif;
+	font-size: 12px;
+	letter-spacing: 1px;
+	padding: 4px 0px;
+}
+
+ul.vl_rightbuttons {
+	position: absolute;
+	right: 0;
+}
+
+div.vl_buttons button.vl_fullscreen {
+	padding-right: 9px;
+}
+
+div.vl_buttons button:hover:after {
+	content: attr(data-content);
+	right: -11px;
+	top: -35px;
+}
+
+div.vl_buttons button.vl_play:hover:after, div.vl_buttons button.vl_volume:hover:after {
+	content: '';
+}
+
+button.vl_play:before {
+	content: '\2023';
+}
+
+button.vl_play.vl_playing:before {
+	content: '\1D125';
+}
+
+button.vl_playlist:before {
+	content: '\2261';
+}
+
+button.vl_repeat:before {
+	content: '\221E';
+}
+
+button.vl_captions:before {
+	content: '\229F';
+}
+
+button.vl_quality:before {
+	content: '\2191';
+}
+
+button.vl_volume.vl_loud:before {
+	content: '\1F509';
+}
+
+button.vl_volume.vl_low:before {
+	content: '\1F508';
+	padding-right: 4px;
+}
+
+button.vl_volume.vl_mute:before {
+	content: '\1F507';
+	padding-right: 8px;
+}
+
+button.vl_fullscreen.vl_normal:before, button.vl_fullscreen.vl_full:hover:before {
+	content: '\25F1';
+}
+
+button.vl_fullscreen.vl_full:before, button.vl_fullscreen.vl_normal:hover:before {
+	content: '\25A1';
+}
+
+button.vl_shuffle:before {
+	content: '\2AD8';
+}
+
+div.vl_buttons button.vl_repeat:hover:after {
+	width: 78px;
+	right: -28px;
+}
+
+div.vl_buttons button.vl_captions:hover:after {
+	right: -17px;
+}
+
+div.vl_buttons button.vl_quality:hover:after {
+	width: 117px;
+	right: -45px;
+}
+
+div.vl_buttons button.vl_fullscreen:hover:after {
+	width: 61px;
+	right: 0px;
+}
+
+div.vl_buttons button.vl_play:hover:after, div.vl_buttons button.vl_volume:hover:after {
+	border: none;
+	background: none;
+}
+
+h2.vl_show, div.vl_show, div.vl_buttons button.vl_show {
+	display: block;
+}
+
+div.vl_hiding {
+	opacity: 0;
+}
+
+div.vl_title.vl_hide, div.vl_menus.vl_hide, div.vl_controls.vl_hide, div.vl_hide {
+	-webkit-transition: none;
+	transition: none;
+	opacity: 0;
+}
+
+button.vl_remove {
+	display: none;
+}
+
+div.vl_ui.vl_nocursor {
+	cursor: none;
+}
+
+/* Place media queries for your videos here, target div.vl_ui and use !important */
+
+
+
+
+
+/* End media queries */
+
+/* Specific "media queries" for the UI, these will be applied in JS when the video width and height
+get to the numbers specified. Further classes created won't apply */
+
+/* Here's the list of what you can use
+div.vl_ui.vl_maxwidth500 {};
+div.vl_ui.vl_maxwidth400 {};
+div.vl_ui.vl_maxwidth320 {};
+div.vl_ui.vl_maxwidth280 {};
+div.vl_ui.vl_maxwidth240 {};
+div.vl_ui.vl_maxwidth200 {};
+
+div.vl_ui.vl_maxheight400 {};
+div.vl_ui.vl_maxheight300 {};
+div.vl_ui.vl_maxheight200 {}; */
+
+.vl_maxwidth320 div.vl_buttons button.vl_playlist,
+.vl_maxwidth400 div.vl_buttons button.vl_captions {
+	display: none;
+}
+ 

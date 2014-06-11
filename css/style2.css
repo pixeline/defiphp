@@ -1,0 +1,21 @@
+#presentation {
+    background-image: url('../img/backtexture.png'), url('../img/thanksbg.jpg');
+}
+    section {
+        margin: 0 auto;
+        width: 270px;
+    }
+
+    #logo, .content h2 {
+        margin-bottom: 10px;
+    }
+
+    h3 {
+        margin-top: 0px;
+    }
+
+    .content span {
+        font-family: 'MeriendaOneRegular';
+    }
+
+

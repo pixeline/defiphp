@@ -1,0 +1,60 @@
+body {
+	font-family: 'Droid Sans', sans-serif;
+	font-size: 85%;
+	line-height: 2em;
+    color: #202020;
+}
+ul {
+	list-style: none;
+	width: 600px;
+}
+li {
+	margin-bottom: 70px;
+	position: relative;
+}
+li:before, p.second:before {
+	content: "";
+	width: 1px;
+	height: 258px;
+	display: block;
+	background-color: #202020;
+	position: absolute;
+	left: -23px;
+	top: 13px;
+}
+p.second:before {
+	top: 258px;
+}
+li:last-child:before {
+	height: 0px;
+}
+li:after {
+	content: "";
+	width: 9px;
+	height: 9px;
+	display: block;
+	background-color: #202020;
+	position: absolute;
+	left: -27.5px;
+	top: 9px;
+	border-radius: 5px;
+}
+h1 {
+	font-size: 1.2em;
+	font-weight: normal;
+}
+span {
+	font-style: italic;
+}
+a {
+	color: #202020;
+}
+a:visited {
+	color: #202020;
+}
+a:hover {
+	color: #5ab81c;
+}
+a:active {
+	color: #5ab81c;
+}
