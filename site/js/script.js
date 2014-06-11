@@ -70,7 +70,7 @@ function init() {
 
 	close.onclick = function() {
 		firsttime.style.display = 'none';
-		document.cookie = 'firstvisit=false';
+		document.cookie = 'firstvisit=false; expires=Thu, 18 Dec 2114 12:00:00 GMT"';
 	}
 
 	newsletter.onclick = function() {
