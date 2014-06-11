@@ -9,6 +9,7 @@ La page login.php permet de se logger en tant qu'administrateur à la page admin
 les résultats du sondage et d'envoyer un mail aux "subscribers"
 
 Pour faire que ça fonctionne:
+
 -Importer la base de données grâce au fichier gordonlablog.sql.
 
 -Ouvrir le dossier 'site'.
