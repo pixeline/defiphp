@@ -25,7 +25,7 @@
 
 		<script src="js/script.js"></script>
 		<script src="js/colorpicker.js"></script>
-		<script src='js/videolayer.min.js'></script>
+		<script src='js/videolayer.js'></script>
 	</head>
 	<body>
 		<?php echo $show; ?>
