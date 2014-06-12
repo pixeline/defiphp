@@ -1,12 +1,14 @@
 defiphp
 =======
 
-Examen de php 2014
+Examen de php 2013-2014
+
+Contexte: Projet réalisé dans le cadre des cours de l'Ecole Supérieure d'Infographie Albert Jacquard.
 
 Description: Defi php et tfe liés, j'ai ajouté une inscription par mail à la newsletter ainsi 
-qu'un formulaire de feedback sur la page index.php.
-La page login.php permet de se logger en tant qu'administrateur à la page admin.php, qui permet de voir 
-les résultats du sondage et d'envoyer un mail aux "subscribers"
+qu'un formulaire de feedback sur la page "index.php" (à l'intérieur du dossier "site").
+La page "login.php" permet de se logger en tant qu'administrateur à la page "admin.php", qui permet de voir 
+les résultats du sondage et d'envoyer un mail aux "subscribers" qui ont accepté de recevoir la newsletter.
 
 Pour faire que ça fonctionne:
 
@@ -17,4 +19,4 @@ Pour faire que ça fonctionne:
 -Ouvrir le fichier inc.config.php et changer les logs pour accéder à la bdd.
 
 Le pseudo et mot de passe pour accéder à la page admin.php par l'interface 
-de connexion login.php sont "tfedwm14" et "tfedwm14".
+de connexion de la page "login.php" sont "tfedwm14" et "tfedwm14".
