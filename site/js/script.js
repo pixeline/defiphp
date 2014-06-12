@@ -187,7 +187,7 @@ function init() {
 					var string = 'video'+(j+1),
 						row = document.getElementsByClassName(string);
 					row[1].value = parseFloat(row[1].value) + 1;
-					track[j] += '&lt;track kind=&#39;<strong>subtitles</strong>&#39; src=&#39;<strong>cap'+(row[1].value)+'vid'+(j+1)+'</strong>.vtt&#39; srclang=&#39;<strong>en</strong>&#39;'+datanum[j]+'&gt;<br>';
+					track[j] += '&lt;track kind=&#39;<strong>subtitles</strong>&#39; src=&#39;<strong>cap'+(row[1].value)+'vid'+(j+1)+'</strong>.vtt&#39; srclang=&#39;<strong>en</strong>&#39;'+datanum[j]+' label=&#39;<strong>English</strong>&gt;<br>';
 					tracknum[j] = tracknum[j] + 1;
 				}
 			writeCode(num);
@@ -250,7 +250,7 @@ function init() {
 					}
 					track[i] = '';
 					for(j=0;j<capnum;j++) {
-						track[i] += '&lt;track kind=&#39;<strong>subtitles</strong>&#39; src=&#39;<strong>cap'+(j+1)+'vid'+(i+1)+'</strong>.vtt&#39; srclang=&#39;<strong>en</strong>&#39;'+datanum[i]+'&gt;<br>'
+						track[i] += '&lt;track kind=&#39;<strong>subtitles</strong>&#39; src=&#39;<strong>cap'+(j+1)+'vid'+(i+1)+'</strong>.vtt&#39; srclang=&#39;<strong>en</strong>&#39;'+datanum[i]+' label=&#39;<strong>English</strong>&gt;<br>'
 						tracknum[i] = parseFloat(capnum);
 					}
 					if(capnum == 0) {
