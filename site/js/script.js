@@ -182,14 +182,15 @@ function init() {
 			string += '</tr>';
 		}
 		table.innerHTML = string;
+
 		document.getElementById('captionsbutton').onclick = function() {
-				for(j=0;j<num;j++) {
-					var string = 'video'+(j+1),
-						row = document.getElementsByClassName(string);
-					row[1].value = parseFloat(row[1].value) + 1;
-					track[j] += '&lt;track kind=&#39;<strong>subtitles</strong>&#39; src=&#39;<strong>cap'+(row[1].value)+'vid'+(j+1)+'</strong>.vtt&#39; srclang=&#39;<strong>en</strong>&#39;'+datanum[j]+' label=&#39;<strong>English</strong>&#39;&gt;<br>';
-					tracknum[j] = tracknum[j] + 1;
-				}
+			for(j=0;j<num;j++) {
+				var string = 'video'+(j+1),
+					row = document.getElementsByClassName(string);
+				row[1].value = parseFloat(row[1].value) + 1;
+				track[j] += '&lt;track kind=&#39;<strong>subtitles</strong>&#39; src=&#39;<strong>cap'+(row[1].value)+'vid'+(j+1)+'</strong>.vtt&#39; srclang=&#39;<strong>en</strong>&#39;'+datanum[j]+' label=&#39;<strong>English</strong>&#39;&gt;<br>';
+				tracknum[j] = tracknum[j] + 1;
+			}
 			writeCode(num);
 		}
 
@@ -200,7 +201,6 @@ function init() {
 		document.getElementById('qualitybutton').onclick = function() {
 			checkButtOnClick(hd, 3, num);
 		}
-
 
 		for(i=0;i<num;i++) {
 			(function(i) {
@@ -228,13 +228,31 @@ function init() {
 					defradio.checked = true;
 				}
 
+				capnum = capinput.value;
+				test2 = regexp2.test(capnum);
+				if(!test2) {
+					if(capnum > 99) {
+						capinput.value = 99;
+					}
+					else if(num < 0) {
+						capinput.value = 0;
+					}
+					else {
+						capinput.value = 0;
+					}
+					capnum = capinput.value;
+				}
+				track[i] = '';
+				for(j=0;j<capnum;j++) {
+					track[i] += '&lt;track kind=&#39;<strong>subtitles</strong>&#39; src=&#39;<strong>cap'+(j+1)+'vid'+(i+1)+'</strong>.vtt&#39; srclang=&#39;<strong>en</strong>&#39;'+datanum[i]+' label=&#39;<strong>English</strong>&#39;&gt;<br>'
+				}
 
 				titleinput.oninput = function() {
 					title[i] = this.value;
 					writeCode(num);
 				}
 				capinput.oninput = function() {
-					capnum = capinput.value;
+					capnum = this.value;
 					test2 = regexp2.test(capnum);
 					if(!test2) {
 						if(capnum > 99) {
