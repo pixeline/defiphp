@@ -5,7 +5,7 @@
 	error_reporting(E_WARNING | E_ERROR);
 
 	if($_SESSION['logged_in'] != 'ok'){
-		$link = mysql_connect('mysql51-99.perso', 'gordonlablog', 'hanniball39');
+		$link = mysql_connect('XXXXXX', 'username', 'password');
 		// not connected
 		if(isset($_POST) && count($_POST) > 0 ){
 			$errors = array();
